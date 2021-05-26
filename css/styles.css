@@ -12,6 +12,8 @@
   --project-border: #eeeeee;
   --icon-color: #afb1b8;
   --icon-bg-color: rgba(255, 255, 255, 0.1);
+  --timing: 250ms;
+  --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
@@ -69,6 +71,10 @@ ul {
 }
 /* ========================================= HEADER ======================================  */
 
+.page-header {
+  border-bottom: 1px solid var(--header-line);
+}
+
 .container {
   width: 1200px;
   padding-left: 15px;
@@ -107,6 +113,7 @@ ul {
 }
 
 .nav .nav-link {
+  position: relative;
   display: block;
   padding-top: 32px;
   padding-bottom: 32px;
@@ -115,12 +122,26 @@ ul {
   font-size: 14px;
   line-height: 1.14;
   letter-spacing: 0.02em;
+
+  transition: color var(--timing) var(--timing-function);
 }
 
 .nav .nav-link:hover,
 .nav .nav-link:focus,
-.nav .nav-link.nav-link.current {
+.nav .nav-link.current {
   color: var(--accent-text-color);
+}
+
+.current::after {
+  display: block;
+  content: '';
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background-color: var(--accent-text-color);
+
+  position: absolute;
+  bottom: 0;
 }
 
 /* ================= END NAVIGATION ====================== */
@@ -148,6 +169,8 @@ ul {
   font-size: 14px;
   line-height: 1.14;
   letter-spacing: 0.02em;
+
+  transition: color var(--timing) var(--timing-function);
 }
 
 .icon-mail {
@@ -256,6 +279,8 @@ ul {
   letter-spacing: 0.06em;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
+
+  transition: background-color var(--timing) var(--timing-function);
 }
 
 .hero-button:hover {
@@ -307,6 +332,23 @@ ul {
 .work .item,
 .project .item {
   flex-basis: calc((100% - 90px) / 3);
+  position: relative;
+}
+
+.work-title {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--white-color);
+  background-color: rgba(47, 48, 58, 0.8);
+  padding-top: 27px;
+  padding-bottom: 27px;
 }
 
 /* =================== END WORK ============= */
@@ -362,6 +404,9 @@ ul {
   align-items: center;
   fill: var(--icon-color);
   border-radius: 50%;
+
+  transition: background-color var(--timing) var(--timing-function),
+    fill var(--timing) var(--timing-function);
 }
 
 .social-icon {
@@ -390,13 +435,13 @@ ul {
   fill: var(--icon-color);
   border: 1px solid var(--icon-color);
   border-radius: 4px;
+
+  transition: border var(--timing) var(--timing-function),
+    fill var(--timing) var(--timing-function);
 }
 
 .client-link:hover {
   border: 1px solid var(--accent-text-color);
-}
-
-.client-link:hover .client-icon {
   fill: var(--accent-text-color);
 }
 
@@ -425,6 +470,8 @@ ul {
   font-style: normal;
   font-size: 14px;
   line-height: 1.71;
+
+  transition: color var(--timing) var(--timing-function);
 }
 
 .footer-address .footer-link:hover,
@@ -463,10 +510,6 @@ ul {
 
 /* ################################# PORTFOLIO ##########################################  */
 
-.header-line {
-  border-bottom: 1px solid var(--header-line);
-}
-
 /* ====================================== FILTER ====================================== */
 
 .filter {
@@ -489,6 +532,10 @@ ul {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+
+  transition: color var(--timing) var(--timing-function),
+    background-color var(--timing) var(--timing-function),
+    box-shadow var(--timing) var(--timing-function);
 }
 
 .filter .item {
@@ -512,6 +559,15 @@ ul {
   flex-wrap: wrap;
 }
 
+.project .item {
+  transition: box-shadow var(--timing) var(--timing-function);
+}
+
+.project .item:hover {
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
+    1px 4px 6px rgba(0, 0, 0, 0.16);
+}
+
 .project .project-name {
   font-size: 18px;
   line-height: 2;
@@ -531,9 +587,41 @@ ul {
   box-sizing: border-box;
 }
 
-.project .item:hover {
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
-    1px 4px 6px rgba(0, 0, 0, 0.16);
+.project-animation {
+  position: relative;
+  overflow: hidden;
 }
 
-/* ====================================== END PROJECTS ====================================== */
+.project-animation-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(33, 150, 243, 0.9);
+
+  transform: translateY(100%);
+  transition: transform var(--timing) var(--timing-function);
+}
+
+.project .item:hover .project-animation-text {
+  transform: translateY(0);
+}
+
+.project-description {
+  position: absolute;
+  display: flex;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0.03em;
+  color: var(--white-color);
+  padding: 63px 24px;
+
+  transition: transform var(--timing) var(--timing-function);
+}
+
+.project .item:hover .project-description {
+  transform: translateY(0);
+}
+
+/* ====================================== END PROJECTS ====================================== */ ;
